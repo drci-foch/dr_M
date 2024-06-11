@@ -1,0 +1,18 @@
+ SELECT dd.DOCUMENT_NUM, dd.DOCUMENT_DATE, dd.TITLE, dd.DOCUMENT_ORIGIN_CODE,
+	p.HOSPITAL_PATIENT_ID, dd.DOCUMENT_TYPE,
+    dd.AGE_PATIENT, pat.SEX, pat.BIRTH_DATE
+FROM
+    DWH.DWH_DOCUMENT dd
+    	join DWH.DWH_PATIENT_IPPHIST p ON dd.patient_num = p.patient_num
+    	join DWH.DWH_PATIENT pat ON pat.patient_num = dd.patient_num
+WHERE
+    	TO_CHAR(dd.DOCUMENT_DATE,'yyyy') = 2024 and BIRTH_DATE is not null
+ 	and p.HOSPITAL_PATIENT_ID LIKE '0%'
+ 	--AND DOCUMENT_ORIGIN_CODE not in ('FOCH_EFR', 'CYBERLAB', 'BIO', 'PMSI_MCO')
+	and age_patient is not NULL;
+	
+	
+	
+SELECT DOCUMENT_NUM, DISPLAYED_TEXT
+FROM
+    DWH.DWH_DOCUMENT WHERE document_num IN (406167372, 405967618)

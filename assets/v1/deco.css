@@ -1,0 +1,58 @@
+.all_border {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.minimize {
+	transform: scale(0.9);
+}
+
+.gras {
+	font-weight: bold;
+}
+
+input.smallCheckbox {
+	width: 10px;
+	height: 10px;
+}
+
+.td_freeze {
+  position: sticky;
+  left: 0;
+  z-index: 0;
+}
+
+/* th, td { */
+	/* height: 12px; */
+	/* min-width:30px; */
+/* } */
+
+.stick{
+	position: sticky;
+	top: 0;
+	z-index: 2;
+}
+
+.button-container {
+    background-color:white;
+    border: 2px solid #2F425A;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 300%;
+}
+
+.button-container:hover {
+    background-color: #7795bb;
+}
+
+.highlight {
+    background-color: yellow !important;
+}
+
+.highlight2 {
+    background-color: yellow !important;
+}
+

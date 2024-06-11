@@ -1,0 +1,70 @@
+mysql -P9306 -h127.0.0.1
+
+D:\Manticore\bin\searchd -c D:\Manticore\manticore.conf.in
+D:\Manticore\bin\searchd -c D:\Manticore\manticore.conf2.in
+
+create table products(document text, patient_num int, title string, document_date int, origin_code string) html_strip = '1' morphology='libstemmer_fr';
+create table wh_docs0(document text, patient_num int, title string, document_date int, origin_code string)  min_infix_len = '3' mablend_chars = '+, &, -, _, <, >, /, %' html_strip = '1' morphology='libstemmer_fr';
+create table wh_docs_f(document text, patient_num int, title string, document_date int, origin_code string,
+	 birth_date int, sex string, age float, doc_type string)  min_infix_len = '3' mablend_chars = '+, &, -, _, <, >, /, %' html_strip = '1' morphology='libstemmer_fr';
+
+
+create table testc2(document text) blend_chars = '+, &, -, _, <, >, /, %,' html_strip = '1' morphology='libstemmer_fr';
+? : /,% !    "    $    '    (    )    -    /    <    @    \    ^    |    ~
+ index_sp => todo index_sp = {0|1}
+Controls detection and indexing of sentence and paragraph boundaries. Optional, default is 0 (no detection or indexing).
+
+
+ index_fuzzy, start, stop : Wildcard searching settings : min_prefix_len = '3', CREATE TABLE products(title text, price float) min_infix_len = '3'
+
+ 
+insert into products(document, patient_num, title, document_date, origin_code) VALUES ('coucou', 123, 'titre', 20200121, 'TEST');
+
+SELECT highlight() FROM products WHERE MATCH('angioscanner') and document_date >= 20160101 LIMIT 200;
+SELECT COUNT(*) FROM products where MATCH('diabete NEAR/500000 diabete') OPTION ranker=expr('1');
+
+--	SELECT title,  highlight(),  packedfactors({json=1}) AS str  FROM products WHERE MATCH('" diabete diabete "')
+and document_date >= 20160101  ;
+
+ packedfactors() OPTION ranker=expr('1')
+ 
+ -- ranker=expr('doc_word_count>3')
+
+searchd
+{
+    listen = 127.0.0.1:9312
+    listen = 127.0.0.1:9306:mysql
+    listen = 127.0.0.1:9308:http
+    log = D:/manticore/log/searchd.log
+    query_log = D:/manticore/log/query.log
+    pid_file = D:/manticore/log/searchd.pid
+    data_dir = D:/manticore
+}
+
+
+
+INSERT INTO testc (document) VALUES('Je m\'appelle Moustapha');
+INSERT INTO testc (document) VALUES('Ros: +++ val: -- test ++');
+
+INSERT INTO testc (document) VALUES('diabete 1 fois diabete 2 fois');
+INSERT INTO testc (document) VALUES('diabete 1 fois ');
+ create table testc2(document text)  min_infix_len = '3' blend_chars = '+, &, -, _, <, >, /, %' html_strip = '1' morphology='libstemmer_fr';
+ 
+INSERT INTO testc2 (document) VALUES('Je m\'appelle Moustapha');
+INSERT INTO testc2 (document) VALUES('Ros: +++ val: -- test ++ 10%');
+INSERT INTO testc2 (document) VALUES('Ros: +++ val: -- test ++ 20%');
+INSERT INTO testc2 (document) VALUES('Ros: +++ val: -- test 20/05/2020 12%');
+INSERT INTO testc2 (document) VALUES('Ros: +++ val: -- test ++ 10%');
+INSERT INTO testc2 (document) VALUES('diabete 1 fois diabete 2 fois');
+INSERT INTO testc2 (document) VALUES('diabete 1 fois ');
+INSERT INTO testc2 (document) VALUES('diabete >1 fois ');
+INSERT INTO testc2 (document) VALUES('diabete > 2 fois ');
+INSERT INTO testc2 (document) VALUES('diabete > 2 fois ');
+
+ SELECT MAX(document_date) FROM products where MATCH('diabete NEAR/500000 diabete') OPTION ranker=expr('1');
+
+
+
+SELECT highlight() FROM products WHERE MATCH('angioscanner') and document_date >= 20160101 LIMIT 2000 OFFSET 0 option max_matches=10000;
+
+SELECT highlight() FROM  testc2 where MATCH(' "the world is a wonderful place"/3  ')
